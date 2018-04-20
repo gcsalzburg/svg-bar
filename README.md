@@ -1,5 +1,10 @@
 # SVGBar
-Animated progress bars with variable widths and non-linear paths (i.e. squiggly)
+> Animated progress bars with variable widths and non-linear paths (i.e. squiggly).
+Great for animating and controlling SVG progress bars which have:
+- a variable width along their profile
+- a non-linear path (i.e. bends and curves)
+- an animation path for progress which is not obviously related to the edges of the progress bar
+PlainJS - no dependencies!
 
 ## Getting started
 
@@ -30,6 +35,16 @@ Here's some styles to get started:
 .path_line{fill:none; stroke-linecap:round; stroke-width:2; stroke:#666666; stroke-dasharray: 5, 5; opacity: 0;}
 ```
 
+## How it works
+
+The progress bar uses a couple of different techniques:
+
+- Dashed-line and dashed-offset CSS effect to create an animation along a path
+- CSS clippath reference to inline SVG
+- Dynamic creation and injection of CSS keyframe animations
+
+The styling on `.progress_path` should include a stroke-width which is wider than the possible maximum width of the progress bar, to ensure the colour fill is good enough.
+
 ## Options
 
 To configure with some options, pass a plain object to the options argument of the constructor like this:
@@ -45,21 +60,13 @@ var mySVGBar = new SVGBar({
 });
 ```
 
-### svg
-A refernce to the DOM element containing the SVG
-
-### mask
-A reference to the DOM element inside the SVG element which is the path to use for masking
-
-### paths
-A NodeList of all `<path>` elements in the SVG element which should be used in conjunction with the mask.
-
-### animation_length
-Length for the animation in milliseconds. Default is 5000.
-
-### track_mouse
-Use this to enable a mouse handler for the svg, which will tie the movement of the mouse within the svg tag to the progress of the progress bar.
-Possible values are: 'x', 'y', '-x', '-y' 
+| Option | Description |
+| --- | --- |
+| svg | The DOM element containing the SVG |
+| mask | The DOM element inside the SVG element which is the path to use for masking |
+| paths | A NodeList of all `<path>` elements in the SVG element which should be used in conjunction with the mask. |
+| animation_length | Length for the animation in milliseconds. Default is 5000. |
+| track_mouse | Use this to enable a mouse handler for the svg, which will tie the movement of the mouse within the svg tag to the progress of the progress bar. Possible values are: 'x', 'y', '-x', '-y'.  |
 
 ## Usage
 
@@ -93,3 +100,10 @@ Toggle play/stop state of animation
 ```javascript
 mySVGBar.toggleAnimationState();
 ```
+
+## Future extensions
+
+- Improve passing of masks and progress paths to couple them together more closely
+- Better getter/setter methods 
+- Functions should return sensible values
+- Colour transition for progress bar between two values
