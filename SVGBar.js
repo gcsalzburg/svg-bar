@@ -59,8 +59,6 @@
         this.setPath(this.options.paths[0]);
     }
 
-    // Public Methods
-
     // Starts or stops the animation of the rev bar
     SVGBar.prototype.setAnimationState = function(will_play){
         this.is_animating = will_play;
