@@ -8,6 +8,8 @@ Great for animating and controlling SVG progress bars which have:
 
 PlainJS - no dependencies!
 
+![Wiggly worms](https://thumbs.gfycat.com/TiredShadowyGossamerwingedbutterfly-max-1mb.gif)
+
 ## Getting started
 
 Include the SVGBar.js file in the head of the page:
@@ -128,3 +130,4 @@ mySVGBar.toggleAnimationState();
 - Better getter/setter methods 
 - Functions should return sensible values
 - Colour transition for progress bar between two values
+- Add function to return current animation position
