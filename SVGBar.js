@@ -80,12 +80,11 @@
         var path = document.querySelector('#'+this.getPath().getAttribute('data-svgbar-path_line-id'));
         this.is_pathline_visible = will_show;
         if(!will_show){
-            $(".toggle").removeClass("selected");
             path.style.opacity = 0;
         }else{
-            $(".toggle").addClass("selected");
             path.style.opacity = 1;
         }
+        return this.is_pathline_visible;
     }
 
     // Toggle visible state of the path line
@@ -156,6 +155,7 @@
             path_line.setAttribute('id', path_line_id)
             path_line.removeAttribute('class');
             path_line.classList.add('path_line');
+            path_line.style.opacity = 0;
             svg_tag.appendChild(path_line);
 
             // Set clipping mask for the path
