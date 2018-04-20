@@ -2,12 +2,13 @@
 (function() {
     
     // Define our constructor
-    this.SVGBar = function() {
+    SVGBar = function() {
 
         // Global, public flags 
         this.is_pathline_visible = false;   // Flag for display of dashed centreline    
         this.is_animating = false;          // Flag for whether currently animating
-        this.curr_path;
+
+        var curr_path;
 
         // Define option defaults
         var defaults = {
@@ -31,6 +32,14 @@
             this.options.mask = this.options.svg.getElementsByClassName('mask')[0];
         }
 
+        this.setPath = function(path_to_set){
+            curr_path = path_to_set;
+            return this;
+        }
+        this.getPath = function(){
+            return curr_path;
+        }
+
         // Set the initial path reference
         this.setPath(this.options.paths[0]);
 
@@ -40,11 +49,6 @@
     }
 
     // Public Methods
-
-    SVGBar.prototype.setPath = function(path_to_set){
-        this.curr_path = path_to_set;
-    }
-
     SVGBar.prototype.resetBars = function(){
         [].forEach.call(this.options.paths, function (path) {
             path.style.strokeDashoffset = path.getTotalLength();
@@ -62,10 +66,10 @@
         this.is_animating = is_playing;
         if(!is_playing){
             $(".animate").removeClass("selected");
-            this.curr_path.style.animation = 'none';
+            this.getPath().style.animation = 'none';
         }else{
             $(".animate").addClass("selected");
-            this.curr_path.style.animation = 'anim_'+this.curr_path.getAttribute('id') + ' ' + this.options.anim_length+'ms linear alternate infinite';
+            this.getPath().style.animation = 'anim_'+this.getPath().getAttribute('id') + ' ' + this.options.anim_length+'ms linear alternate infinite';
         }
     }
        
@@ -90,8 +94,8 @@
     
     // Sets the percentage fill of a rev bar, used for tying to mouse movement
     SVGBar.prototype.setProgress = function(percent){
-        var length = this.curr_path.getTotalLength();
-        this.curr_path.style.strokeDashoffset = length - (length*percent);
+        var length = this.getPath().getTotalLength();
+        this.getPath().style.strokeDashoffset = length - (length*percent);
     }
 
     // Utility method to extend defaults with user options
