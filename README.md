@@ -30,7 +30,7 @@ Here's some styles to get started:
 .path_line{fill:none; stroke-linecap:round; stroke-width:2; stroke:#666666; stroke-dasharray: 5, 5; opacity: 0;}
 ```
 
-### Options
+## Options
 
 To configure with some options, pass a plain object to the options argument of the constructor like this:
 
@@ -44,6 +44,22 @@ var mySVGBar = new SVGBar({
     track_mouse:        'x'
 });
 ```
+
+### svg
+A refernce to the DOM element containing the SVG
+
+### mask
+A reference to the DOM element inside the SVG element which is the path to use for masking
+
+### paths
+A NodeList of all `<path>` elements in the SVG element which should be used in conjunction with the mask.
+
+### animation_length
+Length for the animation in milliseconds. Default is 5000.
+
+### track_mouse
+Use this to enable a mouse handler for the svg, which will tie the movement of the mouse within the svg tag to the progress of the progress bar.
+Possible values are: 'x', 'y', '-x', '-y' 
 
 ## Usage
 
