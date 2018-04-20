@@ -8,7 +8,7 @@ Great for animating and controlling SVG progress bars which have:
 
 PlainJS - no dependencies!
 
-![Wiggly worms](https://thumbs.gfycat.com/TiredShadowyGossamerwingedbutterfly-max-1mb.gif)
+![Wiggly worms](https://designedbycave.co.uk/play/svgbar/worms.gif)
 
 ## Getting started
 
