@@ -33,9 +33,8 @@ The script will take care of building the progress bars and all other masks.
 
 ### Styling
 
-You should add a CSS styles for the mask and progress_paths to the page so you can see something.
-Refer to these items however you want, these references won't be changed by the SVGBar.
-You can also style the '.path_line' class which will enable
+You should add some CSS styles for the mask and progress_paths to the page so you can see something.
+You can also style the '.path_line' class which will enable you to toggle on/off a view of the path line.
 Here's some styles to get started:
 
 ```css
