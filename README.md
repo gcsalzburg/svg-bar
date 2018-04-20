@@ -37,10 +37,11 @@ To configure with some options, pass a plain object to the options argument of t
 ```javascript
 var svg_obj = document.getElementById('mysvg');
 var mySVGBar = new SVGBar({
-    svg: svg_obj,
-    mask: svg_obj.getElementById('my_mask'),
-    paths: svg_obj.getElementsByClassName('paths_for_progress'),
-    animation_length: 3000
+    svg:                svg_obj,
+    mask:               svg_obj.getElementById('my_mask'),
+    paths:              svg_obj.getElementsByClassName('paths_for_progress'),
+    animation_length:   3000,
+    track_mouse:        'x'
 });
 ```
 
