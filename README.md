@@ -14,7 +14,7 @@ PlainJS - no dependencies!
 
 Include the SVGBar.js file in the head of the page:
 ```html
-<script src="/path/to/SVGBar.js"></script>    
+<script src="/path/to/SVGBar.min.js"></script>    
 ```
 
 and then call:
