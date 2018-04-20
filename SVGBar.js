@@ -13,8 +13,8 @@
 
         // Define option defaults
         var defaults = {
-            svg: document.getElementsByTagName('svg')[0],
-            animation_length: 5000
+            svg:                document.getElementsByTagName('svg')[0],
+            animation_length:   5000
         }
         
         // Create options by extending defaults with the passed in arugments
@@ -33,18 +33,27 @@
             this.options.mask = this.options.svg.getElementsByClassName('mask')[0];
         }
 
+        // Attach mouse handler if necessary,
+        var tm = this.options.track_mouse;
+        if((tm == 'x')||(tm == 'y')||(tm == '-x')||(tm == '-y')){
+            addMouseHandler(this, this.options.svg, tm);
+        }
+
         // Getter and setter for current path
         this.setPath = function(path_to_set){
-            curr_path = path_to_set;
-            resetBars(this.options.paths,this);
-            return this;
+           if(path_to_set.getAttribute('data-svgbar-ispath') == "true"){
+                curr_path = path_to_set;
+                resetBars(this.options.paths,this);
+                return true;
+            }
+            return false;
         }
         this.getPath = function(){
             return curr_path;
         }
 
         // Setup all of the progress bars
-        init_bars(this.options.paths, this.options.mask);
+        init_bars(this.options.svg, this.options.paths, this.options.mask);
 
         // Set the initial path
         this.setPath(this.options.paths[0]);
@@ -58,7 +67,7 @@
         if(!will_play){
             this.getPath().style.animation = 'none';
         }else{
-            this.getPath().style.animation = this.getPath().getAttribute('data-anim-name') + ' ' + this.options.animation_length+'ms linear alternate infinite';
+            this.getPath().style.animation = this.getPath().getAttribute('data-svgbar-anim-name') + ' ' + this.options.animation_length+'ms linear alternate infinite';
         }
         return this.is_animating;
     }
@@ -70,7 +79,7 @@
        
     // Shows or hides the centreline for the current path
     SVGBar.prototype.displayPathLine = function(will_show){
-        var path = document.querySelector('#'+this.getPath().getAttribute('data-path_line-id'));
+        var path = document.querySelector('#'+this.getPath().getAttribute('data-svgbar-path_line-id'));
         this.is_pathline_visible = will_show;
         if(!will_show){
             $(".toggle").removeClass("selected");
@@ -105,29 +114,35 @@
     }
 
     // Clone and create SVG objects required for masking and path line displays
-    function init_bars(paths, mask){
+    function init_bars(svg_tag, paths, mask){
         
+        // Reference to namespace
+        // We need to use createElementNS later on
+        // Further details found here: https://gist.github.com/ufologist/be47161b2f960f941259
         var svgNs = 'http://www.w3.org/2000/svg';
 
-        var svg_obj = document.querySelector('#svg_anim');
-
+        // Create <defs> tag, if it doesn't exist
         var defs;
-        if(svg_obj.getElementsByTagName('defs').length > 0){
-            defs = svg_obj.getElementsByTagName('defs')[0];
+        if(svg_tag.getElementsByTagName('defs').length > 0){
+            defs = svg_tag.getElementsByTagName('defs')[0];
         }else{
             defs = document.createElementNS(svgNs, 'defs');
-            svg_obj.appendChild(defs);
+            svg_tag.appendChild(defs);
         }
 
+        // Create a unique name for the mask id to refer to it in the clippath CSS
         var clippath_name = "svgbar-mask-" + Date.now().toString().slice(-8);
 
-        var clippath = document.createElementNS(svgNs, 'clipPath'); // Needs createElementNS as per https://gist.github.com/ufologist/be47161b2f960f941259
+        // Create a new <clippath> tag
+        var clippath = document.createElementNS(svgNs, 'clipPath');
         clippath.setAttribute('id',clippath_name);
         defs.appendChild(clippath);
 
+        // Add the mask to the <clippath> tag
         var new_mask = mask.cloneNode(true);
         clippath.appendChild(new_mask);
 
+        // Iterate over paths
         var count = 0;
         [].forEach.call(paths, function (path) {
 
@@ -143,7 +158,7 @@
             path_line.setAttribute('id', path_line_id)
             path_line.removeAttribute('class');
             path_line.classList.add('path_line');
-            svg_obj.appendChild(path_line);
+            svg_tag.appendChild(path_line);
 
             // Set clipping mask for the path
             path.style.clipPath = 'url(#'+clippath_name+')';
@@ -153,8 +168,10 @@
             path.style.strokeDashoffset = length;
 
             // Save names of animation and path_line for future reference
-            path.setAttribute('data-anim-name',anim_name);
-            path.setAttribute('data-path_line-id',path_line_id);
+            // Save a flag that we have processed this path
+            path.setAttribute('data-svgbar-anim-name',anim_name);
+            path.setAttribute('data-svgbar-path_line-id',path_line_id);
+            path.setAttribute('data-svgbar-ispath',true);
 
             // Create the keyframe animation based upon the animation length
             var style = document.createElement('style');
@@ -181,11 +198,37 @@
             path.style.strokeDashoffset = path.getTotalLength();
             path.style.animation = 'none';
 
-            var path = document.querySelector('#'+path.getAttribute('data-path_line-id'));
+            var path = document.querySelector('#'+path.getAttribute('data-svgbar-path_line-id'));
             path.style.opacity = 0;
         });
         svgbar.displayPathLine(svgbar.is_pathline_visible);
         svgbar.setAnimationState(svgbar.is_animating);
     }
 
+    // Attaches a handler to tie the mouse movement within the SVG to the total progress
+    function addMouseHandler(svgbar, svg_tag, dir){
+        if(dir.substr(-1) == 'x'){
+            // Horizontal
+            svg_tag.addEventListener('mousemove',function(e){
+                var svg_pos = svg_tag.getBoundingClientRect(),
+                scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+                var percent = (e.pageX - (svg_pos.left+scrollLeft)) / svg_pos.width;
+                if(dir.substr(0,1) == '-'){
+                    percent = 1-percent;
+                }
+                svgbar.setProgress(percent);
+            });
+        }else{
+            // Vertical
+            svg_tag.addEventListener('mousemove',function(e){
+                var svg_pos = svg_tag.getBoundingClientRect(),
+                scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                var percent = (e.pageY - (svg_pos.top+scrollTop)) / svg_pos.height;
+                if(dir.substr(0,1) == '-'){
+                    percent = 1-percent;
+                }
+                svgbar.setProgress(percent);
+            });
+        }    
+    }
 }());
