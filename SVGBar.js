@@ -58,19 +58,23 @@
             path.style.opacity = 0;
         });
         this.displayPathLine(this.is_pathline_visible);
-        this.setAnimation(this.is_animating);
+        this.setAnimationState(this.is_animating);
     }
 
     // Starts or stops the animation of the rev bar
-    SVGBar.prototype.setAnimation = function(is_playing){
-        this.is_animating = is_playing;
-        if(!is_playing){
-            $(".animate").removeClass("selected");
+    SVGBar.prototype.setAnimationState = function(will_play){
+        this.is_animating = will_play;
+        if(!will_play){
             this.getPath().style.animation = 'none';
         }else{
-            $(".animate").addClass("selected");
             this.getPath().style.animation = 'anim_'+this.getPath().getAttribute('id') + ' ' + this.options.anim_length+'ms linear alternate infinite';
         }
+        return this.is_animating;
+    }
+
+    // Toggle between playing and paused animation
+    SVGBar.prototype.toggleAnimationState = function(){
+        return this.setAnimationState(!this.is_animating); 
     }
        
     // Shows or hides the centreline for the current path
@@ -131,7 +135,6 @@
         clippath.appendChild(new_mask);
 
         [].forEach.call(paths, function (path) {
-           // var path = document.querySelector(el);
             var length = path.getTotalLength();
 
             var path_line = path.cloneNode(true);
