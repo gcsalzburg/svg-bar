@@ -119,7 +119,7 @@
             svg_obj.appendChild(defs);
         }
 
-        var clippath_name = "mask-" + Date.now().toString().slice(-8);
+        var clippath_name = "svgbar-mask-" + Date.now().toString().slice(-8);
 
         var clippath = document.createElementNS(svgNs, 'clipPath'); // Needs createElementNS as per https://gist.github.com/ufologist/be47161b2f960f941259
         clippath.setAttribute('id',clippath_name);
@@ -132,8 +132,8 @@
         [].forEach.call(paths, function (path) {
 
             // Create names for the animation and pathline
-            var path_line_id = "path-line-" + Date.now().toString().slice(-8) + count;
-            var anim_name = "anim-" + Date.now().toString().slice(-8) + count;
+            var path_line_id = "svgbar-path-line-" + Date.now().toString().slice(-8) + count;
+            var anim_name = "svgbar-anim-" + Date.now().toString().slice(-8) + count;
  
             // Calculate total length of this path
             var length = path.getTotalLength();
