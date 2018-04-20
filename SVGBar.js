@@ -36,19 +36,18 @@
         // Getter and setter for current path
         this.setPath = function(path_to_set){
             curr_path = path_to_set;
-            resetBars();
+            resetBars(this.options.paths,this);
             return this;
         }
         this.getPath = function(){
             return curr_path;
         }
 
-        // Set the initial path reference
-        this.setPath(this.options.paths[0]);
-
-        // Do stuff!
+        // Setup all of the progress bars
         init_bars(this.options.paths, this.options.mask);
-        
+
+        // Set the initial path
+        this.setPath(this.options.paths[0]);
     }
 
     // Public Methods
@@ -177,16 +176,16 @@
     }
     
     // Put all bars back to how they were
-    function resetBars(){
-        [].forEach.call(this.options.paths, function (path) {
+    function resetBars(paths,svgbar){
+        [].forEach.call(paths, function (path) {
             path.style.strokeDashoffset = path.getTotalLength();
             path.style.animation = 'none';
 
             var path = document.querySelector('#'+path.getAttribute('data-path_line-id'));
             path.style.opacity = 0;
         });
-        this.displayPathLine(this.is_pathline_visible);
-        this.setAnimationState(this.is_animating);
+        svgbar.displayPathLine(svgbar.is_pathline_visible);
+        svgbar.setAnimationState(svgbar.is_animating);
     }
 
 }());
