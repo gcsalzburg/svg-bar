@@ -17,11 +17,20 @@ This will initialise the SVGBar with the default options:
 
 The script will take care of building the progress bars and all other masks.
 
+### Styling
+
+You should add a CSS styles for the mask and progress_paths to the page so you can see something.
+Refer to these items however you want, these references won't be changed by the SVGBar.
+You can also style the '.path_line' class which will enable
+Here's some styles to get started:
+
+
+
 ### Options
 
 To configure with some options, pass a plain object to the options argument of the constructor like this:
 
-```
+```javascript
 var svg_obj = document.getElementById('mysvg');
 var mySVGBar = new SVGBar({
     svg: svg_obj,
@@ -36,30 +45,30 @@ var mySVGBar = new SVGBar({
 ### setProgress(percent)
 Sets the position of the progress bar as a percentage from 0 -> 1.
 Useful to put inside a handler on the page for keyboard presses, AJAX calls, mouse movement etc.
-```
+```javascript
 mySVGBar.setProgress(0.4);
 ```
 
 ### displayPathLine(will_show)
 Show or hide an outline of the path the progress bar is following (great for debugging)
-```
+```javascript
 mySVGBar.displayPathLine(true);
 ```
 
 ### togglePathLine()
 Toggle visiblity of path line
-```
+```javascript
 mySVGBar.togglePathLine();
 ```
 
 ### setAnimationState(will_show)
 Start or stop animating the progress bar back and forth from 0 -> 100%
-```
+```javascript
 mySVGBar.setAnimationState(true);
 ```
 
 ### toggleAnimationState()
 Toggle play/stop state of animation
-```
+```javascript
 mySVGBar.toggleAnimationState();
 ```
