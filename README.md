@@ -37,9 +37,23 @@ You can also style the '.path_line' class which will enable
 Here's some styles to get started:
 
 ```css
-.mask{fill:#B5B5B5; stroke:none;}
-.progress_path{fill:none; stroke-linecap:butt; stroke-width:500; stroke:#5EB902;}
-.path_line{fill:none; stroke-linecap:round; stroke-width:2; stroke:#666666; stroke-dasharray: 5, 5; opacity: 0;}
+.mask{
+    fill:#B5B5B5;
+    stroke:none;
+}
+.progress_path{
+    fill:none;
+    stroke-linecap:butt;
+    stroke-width:500;
+    stroke:#5EB902;
+}
+.path_line{
+    fill:none;
+    stroke-linecap:round;
+    stroke-width:2;
+    stroke:#666666;
+    stroke-dasharray: 5, 5;
+}
 ```
 
 ## How it works
