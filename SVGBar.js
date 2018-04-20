@@ -8,12 +8,13 @@
         this.is_pathline_visible = false;   // Flag for display of dashed centreline    
         this.is_animating = false;          // Flag for whether currently animating
 
-        var curr_path;
+        // Private variables
+        var curr_path;                      // Current path being shown            
 
         // Define option defaults
         var defaults = {
             svg: document.getElementsByTagName('svg')[0],
-            anim_length: 5000
+            animation_length: 5000
         }
         
         // Create options by extending defaults with the passed in arugments
@@ -32,8 +33,10 @@
             this.options.mask = this.options.svg.getElementsByClassName('mask')[0];
         }
 
+        // Getter and setter for current path
         this.setPath = function(path_to_set){
             curr_path = path_to_set;
+            resetBars();
             return this;
         }
         this.getPath = function(){
@@ -49,17 +52,6 @@
     }
 
     // Public Methods
-    SVGBar.prototype.resetBars = function(){
-        [].forEach.call(this.options.paths, function (path) {
-            path.style.strokeDashoffset = path.getTotalLength();
-            path.style.animation = 'none';
-
-            var path = document.querySelector('#'+path.getAttribute('id')+"_path_line");
-            path.style.opacity = 0;
-        });
-        this.displayPathLine(this.is_pathline_visible);
-        this.setAnimationState(this.is_animating);
-    }
 
     // Starts or stops the animation of the rev bar
     SVGBar.prototype.setAnimationState = function(will_play){
@@ -67,7 +59,7 @@
         if(!will_play){
             this.getPath().style.animation = 'none';
         }else{
-            this.getPath().style.animation = this.getPath().getAttribute('data-anim-name') + ' ' + this.options.anim_length+'ms linear alternate infinite';
+            this.getPath().style.animation = this.getPath().getAttribute('data-anim-name') + ' ' + this.options.animation_length+'ms linear alternate infinite';
         }
         return this.is_animating;
     }
@@ -79,7 +71,7 @@
        
     // Shows or hides the centreline for the current path
     SVGBar.prototype.displayPathLine = function(will_show){
-        var path = document.querySelector('#'+this.curr_path.getAttribute('id')+"_path_line");
+        var path = document.querySelector('#'+this.getPath().getAttribute('data-path_line-id'));
         this.is_pathline_visible = will_show;
         if(!will_show){
             $(".toggle").removeClass("selected");
@@ -141,7 +133,7 @@
         [].forEach.call(paths, function (path) {
 
             // Create names for the animation and pathline
-            var path_line_name = "path-line-" + Date.now().toString().slice(-8) + count;
+            var path_line_id = "path-line-" + Date.now().toString().slice(-8) + count;
             var anim_name = "anim-" + Date.now().toString().slice(-8) + count;
  
             // Calculate total length of this path
@@ -149,13 +141,13 @@
 
             // Clone to create a path line for displaying if necessary
             var path_line = path.cloneNode(true);
-            path_line.setAttribute('id', path_line_name)
+            path_line.setAttribute('id', path_line_id)
             path_line.removeAttribute('class');
             path_line.classList.add('path_line');
             svg_obj.appendChild(path_line);
 
             // Set clipping mask for the path
-            path.style.clipPath = 'url(#'+clippath_name+'')';
+            path.style.clipPath = 'url(#'+clippath_name+')';
 
             // Set up the starting positions
             path.style.strokeDasharray = length + ' ' + length;
@@ -163,7 +155,7 @@
 
             // Save names of animation and path_line for future reference
             path.setAttribute('data-anim-name',anim_name);
-            path.setAttribute('data-path_line-name',path_line_name);
+            path.setAttribute('data-path_line-id',path_line_id);
 
             // Create the keyframe animation based upon the animation length
             var style = document.createElement('style');
@@ -182,6 +174,19 @@
 
             count++;    // Increment counter to keep names unique
         });
+    }
+    
+    // Put all bars back to how they were
+    function resetBars(){
+        [].forEach.call(this.options.paths, function (path) {
+            path.style.strokeDashoffset = path.getTotalLength();
+            path.style.animation = 'none';
+
+            var path = document.querySelector('#'+path.getAttribute('data-path_line-id'));
+            path.style.opacity = 0;
+        });
+        this.displayPathLine(this.is_pathline_visible);
+        this.setAnimationState(this.is_animating);
     }
 
 }());
