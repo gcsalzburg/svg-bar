@@ -67,7 +67,7 @@
         if(!will_play){
             this.getPath().style.animation = 'none';
         }else{
-            this.getPath().style.animation = 'anim_'+this.getPath().getAttribute('id') + ' ' + this.options.anim_length+'ms linear alternate infinite';
+            this.getPath().style.animation = this.getPath().getAttribute('data-anim-name') + ' ' + this.options.anim_length+'ms linear alternate infinite';
         }
         return this.is_animating;
     }
@@ -127,34 +127,49 @@
             defs = document.createElementNS(svgNs, 'defs');
             svg_obj.appendChild(defs);
         }
+
+        var clippath_name = "mask-" + Date.now().toString().slice(-8);
+
         var clippath = document.createElementNS(svgNs, 'clipPath'); // Needs createElementNS as per https://gist.github.com/ufologist/be47161b2f960f941259
-        clippath.setAttribute('id','mask');
+        clippath.setAttribute('id',clippath_name);
         defs.appendChild(clippath);
 
         var new_mask = mask.cloneNode(true);
         clippath.appendChild(new_mask);
 
+        var count = 0;
         [].forEach.call(paths, function (path) {
+
+            // Create names for the animation and pathline
+            var path_line_name = "path-line-" + Date.now().toString().slice(-8) + count;
+            var anim_name = "anim-" + Date.now().toString().slice(-8) + count;
+ 
+            // Calculate total length of this path
             var length = path.getTotalLength();
 
+            // Clone to create a path line for displaying if necessary
             var path_line = path.cloneNode(true);
-            path_line.setAttribute('id', path_line.getAttribute('id')+'_path_line')
+            path_line.setAttribute('id', path_line_name)
             path_line.removeAttribute('class');
             path_line.classList.add('path_line');
-
             svg_obj.appendChild(path_line);
 
-            path.style.clipPath = "url(#mask)";
+            // Set clipping mask for the path
+            path.style.clipPath = 'url(#'+clippath_name+'')';
 
             // Set up the starting positions
             path.style.strokeDasharray = length + ' ' + length;
             path.style.strokeDashoffset = length;
 
+            // Save names of animation and path_line for future reference
+            path.setAttribute('data-anim-name',anim_name);
+            path.setAttribute('data-path_line-name',path_line_name);
+
             // Create the keyframe animation based upon the animation length
             var style = document.createElement('style');
             style.type = 'text/css';
             var keyFrames = '\
-            @keyframes anim_'+path.getAttribute('id')+' {\
+            @keyframes '+anim_name+' {\
                 0% {\
                     stroke-dashoffset: PATH_LENGTH;\
                 }\
@@ -164,6 +179,8 @@
             }';
             style.innerHTML = keyFrames.replace(/PATH_LENGTH/g, length);
             document.getElementsByTagName('head')[0].appendChild(style);
+
+            count++;    // Increment counter to keep names unique
         });
     }
 
