@@ -1,14 +1,21 @@
 # SVGBar
 > Animated progress bars with variable widths and non-linear paths (i.e. squiggly).
+
 Great for animating and controlling SVG progress bars which have:
 - a variable width along their profile
 - a non-linear path (i.e. bends and curves)
 - an animation path for progress which is not obviously related to the edges of the progress bar
+
 PlainJS - no dependencies!
 
 ## Getting started
 
-Include the SVGBar.js file in the head of the page and then call:
+Include the SVGBar.js file in the head of the page:
+```html
+<script src="/path/to/SVGBar.js"></script>    
+```
+
+and then call:
 
 ```javascript
 var mySVGBar = new SVGBar();
