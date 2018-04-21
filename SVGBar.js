@@ -69,12 +69,13 @@
         }else{
             this.getPath().style.animation = this.getPath().getAttribute('data-svgbar-anim-name') + ' ' + this.options.animation_length+'ms linear alternate infinite';
         }
-        return this.is_animating;
+        return this;
     }
 
     // Toggle between playing and paused animation
     SVGBar.prototype.toggleAnimationState = function(){
-        return this.setAnimationState(!this.is_animating); 
+        this.setAnimationState(!this.is_animating); 
+        return this.is_animating;
     }
        
     // Shows or hides the centreline for the current path
@@ -82,12 +83,13 @@
         var path = document.querySelector('#'+this.getPath().getAttribute('data-svgbar-path_line-id'));
         this.is_pathline_visible = will_show;
         path.style.opacity = will_show ? 1 : 0;
-        return this.is_pathline_visible;
+        return this;
     }
 
     // Toggle visible state of the path line
     SVGBar.prototype.togglePathLine = function(){
         this.displayPathLine(!this.is_pathline_visible);
+        return this.is_pathline_visible
     }
 
     
@@ -95,6 +97,7 @@
     SVGBar.prototype.setProgress = function(percent){
         var length = this.getPath().getTotalLength();
         this.getPath().style.strokeDashoffset = length - (length*percent);
+        return this;
     }
 
     // Utility method to extend defaults with user options
