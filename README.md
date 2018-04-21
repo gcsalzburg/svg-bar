@@ -101,6 +101,8 @@ var mySVGBar = new SVGBar({
 
 ## Usage
 
+See **example-minimal.html** for a demo of these features.
+
 ### setProgress(percent)
 Sets the position of the progress bar as a percentage from 0 -> 1.
 Useful to put inside a handler on the page for keyboard presses, AJAX calls, mouse movement etc.
@@ -130,6 +132,12 @@ mySVGBar.setAnimationState(true);
 Toggle play/stop state of animation
 ```javascript
 mySVGBar.toggleAnimationState();
+```
+
+### setPath()
+Set the visible progress bar to a given element. This element must have been passed to the constructor initially in the `progress_path` option.
+```javascript
+mySVGBar.setPath(document.getElementById('path1'));
 ```
 
 ## Future extensions
