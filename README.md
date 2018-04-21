@@ -109,36 +109,42 @@ Useful to put inside a handler on the page for keyboard presses, AJAX calls, mou
 ```javascript
 mySVGBar.setProgress(0.4);
 ```
+Chainable (returns object).
 
 ### displayPathLine(will_show)
 Show or hide an outline of the path the progress bar is following (great for debugging)
 ```javascript
 mySVGBar.displayPathLine(true);
 ```
+Chainable (returns object).
 
 ### togglePathLine()
 Toggle visiblity of path line
 ```javascript
 mySVGBar.togglePathLine();
 ```
+Returns true or false depending on new state of path line visibility.
 
 ### setAnimationState(will_show)
 Start or stop animating the progress bar back and forth from 0 -> 100%
 ```javascript
 mySVGBar.setAnimationState(true);
 ```
+Chainable (returns object).
 
 ### toggleAnimationState()
 Toggle play/stop state of animation
 ```javascript
 mySVGBar.toggleAnimationState();
 ```
+Returns true or false depending on new state of animation playback.
 
 ### setPath()
 Set the visible progress bar to a given element. This element must have been passed to the constructor initially in the `progress_path` option.
 ```javascript
 mySVGBar.setPath(document.getElementById('path1'));
 ```
+Returns true if path could be set.
 
 ## Future extensions
 
