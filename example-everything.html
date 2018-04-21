@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <title>SVGBar | Minimal example implementation</title>
+        <style>
+            .mask{fill:#DDD; stroke:none;}
+            .progress_path{fill:none; stroke-linecap:butt; stroke-width:100; stroke:#D52229;}
+            .path_line{fill:none; stroke-linecap:round; stroke-width:2; stroke:#666666; stroke-dasharray: 5, 5;}
+
+            .dial{fill:#414042; transform: }
+        </style>  
+        <script  src="SVGBar.js"></script>  
+    </head>
+    <body>
+       
+        <svg version="1.1" width="500px" height="500px" viewBox="0 0 500 500">
+            <path class="mask" d="M166.925,440.826c18.382,18.383,42.825,28.507,68.822,28.507c53.667,0,97.329-43.661,97.329-97.329c0-25.997-10.124-50.438-28.507-68.822l0,0l-30.724-30.723l0.032-0.033v-0.001c-8.452-8.452-15.865-26.349-15.865-38.302v-22.202v-59.333V30.667h-44.53v181.254c0,4.227,0.563,8.794,1.583,13.468c3.26,14.957,11.24,31.014,20.805,40.578L247,277.102l0,0c0,0,0,0,0,0l41.823,41.824c14.178,14.178,21.987,33.029,21.987,53.078c0,41.393-33.675,75.064-75.065,75.064c-20.05,0-38.9-7.808-53.079-21.984"/>
+
+            <path class="progress_path" id="option1" d="M182.668,425.084
+            c14.178,14.177,33.028,21.984,53.079,21.984c41.39,0,75.065-33.672,75.065-75.064c0-20.049-7.81-38.9-21.987-53.078l-41.823-41.824
+            c0,0,0,0,0,0l0,0l-11.132-11.135c-9.565-9.563-17.544-25.621-20.805-40.578c-1.02-4.674-1.583-9.241-1.583-13.468V30.667"/>
+            <path class="progress_path" id="option2" d="M166.925,440.826
+            c18.382,18.383,42.825,28.507,68.822,28.507c53.667,0,97.329-43.661,97.329-97.329c0-25.997-10.124-50.438-28.507-68.822l0,0
+            l-30.691-30.757l0,0c-8.452-8.452-15.865-26.349-15.865-38.302v-22.202v-59.333V30.667"/>
+
+            <g transform="translate(236.16,372.59)">
+                <path class="dial" d="M3.795-45.33v24.867c0,2.096-1.699,3.796-3.795,3.796c-2.096,0-3.795-1.7-3.795-3.796V-45.33C-27.147-43.4-45.5-23.85-45.5,0.001c0,12.564,5.093,23.94,13.326,32.174C-23.939,40.408-12.564,45.5,0,45.5c25.129,0,45.5-20.369,45.5-45.499C45.5-23.85,27.146-43.4,3.795-45.33z"/>
+            </g>
+        </svg>
+
+        
+        <p>
+            <a href="#animate" id="animate">Toggle animation</a> | <a href="#path" id="path">Toggle path</a> | <a href="#option1" id="option1_button">Path option 1</a> | <a href="#option2" id="option2_button">Path option 2</a> <br>
+            George Cave <a href="https://github.com/gcsalzburg/SVGBar">SVGBar.js</a>
+        </p>
+        
+        <script>
+            var mySVGBar = new SVGBar({
+                animation_length: 2000,
+                track_mouse: "-y"
+            });
+
+            // Event handlers for the two toggle buttons
+            // Basic progress bar functionality will work without these
+            document.getElementById("animate").addEventListener("click",function(){
+                mySVGBar.toggleAnimationState();
+            });
+            document.getElementById("path").addEventListener("click",function(){
+                mySVGBar.togglePathLine();
+            });
+            document.getElementById("option1_button").addEventListener("click",function(){
+                mySVGBar.setPath(document.getElementById("option1"));
+            });
+            document.getElementById("option2_button").addEventListener("click",function(){
+                mySVGBar.setPath(document.getElementById("option2"));
+            });
+
+            document.addEventListener("progressChanged",function(e){
+                document.getElementsByClassName("dial")[0].style.transform = 'rotate(-'+(e.detail.progress*360)+'deg)'; 
+            });
+        </script>  
+    </body>
+</html>
