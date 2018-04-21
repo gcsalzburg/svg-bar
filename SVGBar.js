@@ -26,8 +26,10 @@
 
         // Populate mask and path parameters if they were not passed in
         // We do this so that we use the svg option, in case that was passed in too
-        if(!this.options.paths){
-            this.options.paths = this.options.svg.getElementsByClassName('progress_path');
+        if(this.options.progress_path){
+            this.options.paths = makeArrayFromHTML(this.options.progress_path);
+        }else{
+            this.options.paths = makeArrayFromHTML(this.options.svg.getElementsByClassName('progress_path'));
         }
         if(!this.options.mask){
             this.options.mask = this.options.svg.getElementsByClassName('mask')[0];
@@ -53,7 +55,7 @@
         }
 
         // Setup all of the progress bars
-        init_bars(this.options.svg, this.options.paths, this.options.mask);
+        initSvg(this.options.svg, this.options.paths, this.options.mask);
 
         // Set the initial path
         this.setPath(this.options.paths[0]);
@@ -111,7 +113,7 @@
     }
 
     // Clone and create SVG objects required for masking and path line displays
-    function init_bars(svg_tag, paths, mask){
+    function initSvg(svg_tag, paths, mask){
         
         // Reference to namespace
         // We need to use createElementNS later on
@@ -189,7 +191,7 @@
             count++;    // Increment counter to keep names unique
         });
     }
-    
+
     // Put all bars back to how they were
     function resetBars(paths,svgbar){
         [].forEach.call(paths, function (path) {
@@ -228,5 +230,18 @@
                 svgbar.setProgress(percent);
             });
         }    
+    }
+
+    function makeArrayFromHTML(input){
+        if(Array.isArray(input)){
+            // Already an array
+            return input;
+        }
+        if((input.constructor.name == 'NodeList') || (input.constructor.name == 'HTMLCollection')){
+            // Is a NodeList or HTMLCollection
+            return Array.from(input);
+        }else{
+            return new Array(input);
+        }
     }
 }());

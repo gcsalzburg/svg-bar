@@ -17,6 +17,14 @@ Include the SVGBar.js file in the head of the page:
 <script src="/path/to/SVGBar.min.js"></script>    
 ```
 
+Add your SVG to the body of your page, for example:
+```html
+<svg version="1.1" x="0px" y="0px" width="400px" height="200px" viewBox="0 0 400 200">
+    <path class="mask" d="M375,150H25V50h350V150z"/>
+    <path class="progress_path" d="M25,100h350"/>
+</svg>
+```
+
 and then call:
 
 ```javascript
@@ -76,7 +84,7 @@ var svg_obj = document.getElementById('mysvg');
 var mySVGBar = new SVGBar({
     svg:                svg_obj,
     mask:               svg_obj.getElementById('my_mask'),
-    paths:              svg_obj.getElementsByClassName('paths_for_progress'),
+    progress_path:      svg_obj.querySelectorAll('.paths_for_progress'),
     animation_length:   3000,
     track_mouse:        'x'
 });
@@ -86,7 +94,7 @@ var mySVGBar = new SVGBar({
 | --- | --- |
 | svg | The DOM element containing the SVG |
 | mask | The DOM element inside the SVG element which is the path to use for masking |
-| paths | A NodeList of all `<path>` elements in the SVG element which should be used in conjunction with the mask. |
+| progress_path | A NodeList or HTMLCollection all `<path>` elements in the SVG element which should be used in conjunction with the mask. Can also accept a single item. |
 | animation_length | Length for the animation in milliseconds. Default is 5000. |
 | track_mouse | Use this to enable a mouse handler for the svg, which will tie the movement of the mouse within the svg tag to the progress of the progress bar. Possible values are: 'x', 'y', '-x', '-y'.  |
 
