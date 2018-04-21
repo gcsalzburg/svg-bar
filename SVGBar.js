@@ -81,11 +81,7 @@
     SVGBar.prototype.displayPathLine = function(will_show){
         var path = document.querySelector('#'+this.getPath().getAttribute('data-svgbar-path_line-id'));
         this.is_pathline_visible = will_show;
-        if(!will_show){
-            path.style.opacity = 0;
-        }else{
-            path.style.opacity = 1;
-        }
+        path.style.opacity = will_show ? 1 : 0;
         return this.is_pathline_visible;
     }
 
@@ -176,16 +172,7 @@
             // Create the keyframe animation based upon the animation length
             var style = document.createElement('style');
             style.type = 'text/css';
-            var keyFrames = '\
-            @keyframes '+anim_name+' {\
-                0% {\
-                    stroke-dashoffset: PATH_LENGTH;\
-                }\
-                100% {\
-                    stroke-dashoffset: 0;\
-                }\
-            }';
-            style.innerHTML = keyFrames.replace(/PATH_LENGTH/g, length);
+            style.innerHTML = '@keyframes '+anim_name+' { 0% {stroke-dashoffset: '+length+';} 100% {stroke-dashoffset: 0;} }';
             document.getElementsByTagName('head')[0].appendChild(style);
 
             count++;    // Increment counter to keep names unique
