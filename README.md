@@ -148,6 +148,8 @@ Returns true if path could be set.
 
 ## Events
 
+See **example-everything.html** for a demo of these features.
+
 ### progressChanged
 Will fire on a progress bar `path` node every time the progress changes. Read in the `detail.progress` value to get the current progress bar position.
 ```javascript
