@@ -99,7 +99,7 @@ var mySVGBar = new SVGBar({
 | animation_length | Length for the animation in milliseconds. Default is 5000. |
 | track_mouse | Use this to enable a mouse handler for the svg, which will tie the movement of the mouse within the svg tag to the progress of the progress bar. Possible values are: 'x', 'y', '-x', '-y'.  |
 
-## Usage
+## Methods
 
 See **example-minimal.html** for a demo of these features.
 
@@ -145,6 +145,16 @@ Set the visible progress bar to a given element. This element must have been pas
 mySVGBar.setPath(document.getElementById('path1'));
 ```
 Returns true if path could be set.
+
+## Events
+
+### progressChanged
+Will fire on a progress bar `path` node every time the progress changes. Read in the `detail.progress` value to get the current progress bar position.
+```javascript
+document.addEventListener("progressChanged",function(e){
+    console.log(e.detail.progress);
+});
+```
 
 ## Future extensions
 

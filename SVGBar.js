@@ -9,7 +9,8 @@
         this.is_animating = false;          // Flag for whether currently animating
 
         // Private variables
-        var curr_path;                      // Current path being shown            
+        var curr_path;                      // Current path being shown 
+        this.animation_start_time;           // Used to support event callbacks when animating 
 
         // Define option defaults
         var defaults = {
@@ -70,6 +71,8 @@
             this.getPath().style.animation = 'none';
         }else{
             this.getPath().style.animation = this.getPath().getAttribute('data-svgbar-anim-name') + ' ' + this.options.animation_length+'ms linear alternate infinite';
+            this.animation_start_time = Date.now();
+            getProgressAnimationPosition(this)
         }
         return this;
     }
@@ -99,6 +102,10 @@
     SVGBar.prototype.setProgress = function(percent){
         var length = this.getPath().getTotalLength();
         this.getPath().style.strokeDashoffset = length - (length*percent);
+
+        // Custom event trigger
+        triggerProgressChange(this, percent);
+
         return this;
     }
 
@@ -234,6 +241,34 @@
             return Array.from(input);
         }else{
             return new Array(input);
+        }
+    }
+
+    // Create and issue a custom event whenever the progress bar value changes
+    function triggerProgressChange(svgbar, percent){
+        // Custom event trigger
+        var progressChange = new CustomEvent('progressChanged',{
+            detail: {
+                progress: percent
+            },
+            bubbles: true,
+            cancelable: true
+        });
+        svgbar.getPath().dispatchEvent(progressChange);
+    }
+
+    // Called from requestAnimationFrame in order to trigger custom events during the animation
+    function getProgressAnimationPosition(svgbar){
+
+        // Scale between 0 and 1
+        percent = ((Date.now()-svgbar.animation_start_time)/svgbar.options.animation_length)%2;
+        percent = (percent>1) ? 2-percent : percent;
+
+        triggerProgressChange(svgbar,percent);
+        if(svgbar.is_animating){
+            window.requestAnimationFrame(function(){
+                getProgressAnimationPosition(svgbar);
+            });
         }
     }
 }());
