@@ -43,10 +43,12 @@
 
         // Getter and setter for current path
         this.setPath = function(path_to_set){
-           if(path_to_set.getAttribute('data-svgbar-ispath') == "true"){
-                curr_path = path_to_set;
-                resetBars(this.options.paths,this);
-                return true;
+            if(path_to_set != null){
+                if(path_to_set.getAttribute('data-svgbar-ispath') == "true"){
+                     curr_path = path_to_set;
+                     resetBars(this.options.paths,this);
+                     return true;
+                 }
             }
             return false;
         }
