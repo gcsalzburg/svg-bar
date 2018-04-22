@@ -55,7 +55,7 @@
             });
 
             document.addEventListener("progressChanged",function(e){
-                document.getElementsByClassName("dial")[0].style.transform = 'rotate(-'+(e.detail.progress*360)+'deg)'; 
+                document.getElementsByClassName("dial")[0].style.transform = 'rotate('+ -1*((e.detail.progress*225)+135) +'deg)'; 
             });
         </script>  
     </body>
