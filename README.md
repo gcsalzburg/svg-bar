@@ -9,6 +9,8 @@ Great for animating and controlling SVG progress bars with any of the following:
 
 PlainJS - no dependencies!
 
+See it in action here: **[Demo page](https://designedbycave.co.uk/play/svgbar/example-everything.html)**!
+
 ![Wiggly worms](https://designedbycave.co.uk/play/svgbar/worms.gif)
 
 ## Getting started
