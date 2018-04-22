@@ -101,7 +101,7 @@ var mySVGBar = new SVGBar({
 
 ## Methods
 
-See **example-minimal.html** for a demo of these features.
+See **[example-minimal.html](https://designedbycave.co.uk/play/svgbar/example-minimal.html)** for a demo of the basic features.
 
 ### setProgress(percent)
 Sets the position of the progress bar as a percentage from 0 -> 1.
@@ -148,7 +148,7 @@ Returns true if path could be set.
 
 ## Events
 
-See **example-everything.html** for a demo of these features.
+See **[example-everything.html](https://designedbycave.co.uk/play/svgbar/example-everything.html)** for a demo of the progressChanged event.
 
 ### progressChanged
 Will fire on a progress bar `path` node every time the progress changes. Read in the `detail.progress` value to get the current progress bar position.
