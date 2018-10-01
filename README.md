@@ -9,9 +9,9 @@ Great for animating and controlling SVG progress bars with any of the following:
 
 PlainJS - no dependencies!
 
-See it in action here: **[Demo page](https://www.designedbycave.co.uk/SVGBar/example-everything.html)**!
+See it in action here: **[Demo page](https://www.designedbycave.co.uk/svg-bar/example-everything.html)**!
 
-![Wiggly worms](https://www.designedbycave.co.uk/SVGBar/worms.gif)
+![Wiggly worms](https://www.designedbycave.co.uk/svg-bar/worms.gif)
 
 ## Getting started
 
@@ -103,7 +103,7 @@ var mySVGBar = new SVGBar({
 
 ## Methods
 
-See **[example-minimal.html](https://www.designedbycave.co.uk/SVGBar/example-minimal.html)** for a demo of the basic features.
+See **[example-minimal.html](https://www.designedbycave.co.uk/svg-bar/example-minimal.html)** for a demo of the basic features.
 
 ### setProgress(percent)
 Sets the position of the progress bar as a percentage from 0 -> 1.
