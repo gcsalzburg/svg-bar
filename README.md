@@ -150,7 +150,7 @@ Returns true if path could be set.
 
 ## Events
 
-See **[example-everything.html](https://designedbycave.co.uk/play/svgbar/example-everything.html)** for a demo of the progressChanged event.
+See **[example-everything.html](https://www.designedbycave.co.uk/svg-bar/example-everything.html)** for a demo of the progressChanged event.
 
 ### progressChanged
 Will fire on a progress bar `path` node every time the progress changes. Read in the `detail.progress` value to get the current progress bar position.
