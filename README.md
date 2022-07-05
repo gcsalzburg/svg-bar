@@ -9,9 +9,9 @@ Great for animating and controlling SVG progress bars with any of the following:
 
 PlainJS - no dependencies!
 
-See it in action here: **[Demo page](https://www.designedbycave.co.uk/svg-bar/example-everything.html)**!
+See it in action here: **[Demo page](https://play.interactionmagic.com/svg-bar/example-everything.html)**!
 
-![Wiggly worms](https://www.designedbycave.co.uk/svg-bar/worms.gif)
+![Wiggly worms](https://play.interactionmagic.com/svg-bar/worms.gif)
 
 ## Getting started
 
@@ -103,7 +103,7 @@ var mySVGBar = new SVGBar({
 
 ## Methods
 
-See **[example-minimal.html](https://www.designedbycave.co.uk/svg-bar/example-minimal.html)** for a demo of the basic features.
+See **[example-minimal.html](https://play.interactionmagic.com/svg-bar/example-minimal.html)** for a demo of the basic features.
 
 ### setProgress(percent)
 Sets the position of the progress bar as a percentage from 0 -> 1.
@@ -150,7 +150,7 @@ Returns true if path could be set.
 
 ## Events
 
-See **[example-everything.html](https://www.designedbycave.co.uk/svg-bar/example-everything.html)** for a demo of the progressChanged event.
+See **[example-everything.html](https://play.interactionmagic.com/svg-bar/example-everything.html)** for a demo of the progressChanged event.
 
 ### progressChanged
 Will fire on a progress bar `path` node every time the progress changes. Read in the `detail.progress` value to get the current progress bar position.
